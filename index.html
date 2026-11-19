@@ -756,14 +756,226 @@
 
       .about-card { padding: 40px; }
       .about-card p { font-size: 16px; }
+      .hero-name-zh { font-size: 24px; }
+      .media-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
     }
 
     /* ===== Responsive: large desktop ===== */
     @media (min-width: 1024px) {
       .projects-grid { grid-template-columns: repeat(3, 1fr); }
       .skills-grid { grid-template-columns: repeat(3, 1fr); }
+      .media-grid { grid-template-columns: repeat(4, 1fr); }
       .hero-name { font-size: 56px; }
     }
+
+    /* ===== Chinese name in hero ===== */
+    .hero-name-zh {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 6px;
+      margin: -8px 0 18px;
+    }
+
+    /* ===== Abstract art (hero) ===== */
+    .hero-art {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .art { position: absolute; }
+    .art-blob { top: 4%; left: 3%; width: 130px; animation: drift 9s ease-in-out infinite; }
+    .art-spiral { top: 8%; right: 6%; width: 72px; animation: spinSlow 22s linear infinite; }
+    .art-triangle { bottom: 16%; left: 8%; width: 56px; animation: drift2 11s ease-in-out infinite; }
+    .art-wave { bottom: 8%; right: 10%; width: 96px; animation: drift 10s ease-in-out infinite reverse; }
+    .art-plus-1 { top: 26%; left: 16%; width: 24px; animation: pulseSoft 3.2s ease-in-out infinite; }
+    .art-plus-2 { bottom: 28%; right: 22%; width: 18px; animation: pulseSoft 4s ease-in-out infinite; }
+    .art-dot-1 { top: 14%; left: 42%; width: 16px; animation: pulseSoft 3.6s ease-in-out infinite; }
+    .art-dot-2 { bottom: 22%; left: 38%; width: 12px; animation: pulseSoft 4.4s ease-in-out infinite; }
+    .art-dot-3 { top: 46%; right: 12%; width: 14px; animation: pulseSoft 3s ease-in-out infinite; }
+
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(14px, -16px) rotate(8deg); }
+    }
+    @keyframes drift2 {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-14px, 12px) rotate(-10deg); }
+    }
+    @keyframes spinSlow { to { transform: rotate(360deg); } }
+    @keyframes pulseSoft {
+      0%, 100% { opacity: 0.35; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(1.12); }
+    }
+
+    /* ===== Interactive avatar ===== */
+    .hero-avatar { cursor: pointer; }
+    .hero-avatar .expr { display: none; }
+    .hero-avatar.mood-normal #expr-normal { display: inline; }
+    .hero-avatar.mood-happy #expr-happy { display: inline; }
+    .hero-avatar.mood-surprised #expr-surprised { display: inline; }
+    .hero-avatar.mood-wink #expr-wink { display: inline; }
+
+    .hero-avatar-wrap { position: relative; }
+    .avatar-bubble {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 16px);
+      transform: translateX(-50%);
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 8px 14px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .avatar-bubble .bubble-en { display: block; font-size: 13px; font-weight: 700; }
+    .avatar-bubble .bubble-zh { display: block; font-size: 11px; color: var(--text-muted); }
+    .avatar-bubble::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 7px solid transparent;
+      border-top-color: #fff;
+    }
+    .avatar-hand {
+      position: absolute;
+      right: -6px;
+      bottom: 6px;
+      width: 38px;
+      height: 38px;
+      z-index: 2;
+      animation: handTap 1.5s ease-in-out infinite;
+    }
+    @keyframes handTap {
+      0%, 100% { transform: translateY(0) rotate(-8deg); }
+      50% { transform: translateY(-8px) rotate(6deg); }
+    }
+
+    /* ===== Vlog & daily life gallery ===== */
+    #vlog { position: relative; overflow: hidden; }
+    #vlog .container { position: relative; z-index: 1; }
+    .vlog-art { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .vlog-art-blob { position: absolute; top: -40px; right: -60px; width: 220px; opacity: 0.5; }
+    .vlog-art-spiral { position: absolute; bottom: -30px; left: -40px; width: 140px; opacity: 0.4; }
+
+    .vlog-intro { color: var(--text-muted); font-size: 15px; margin-bottom: 24px; }
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .media-card, .media-add, .media-placeholder {
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius);
+    }
+    .media-card {
+      background: var(--card);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .media-view { display: block; width: 100%; flex: 1; position: relative; padding: 0; overflow: hidden; }
+    .media-view img, .media-view video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .media-play {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      padding-left: 3px;
+    }
+    .media-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-top: 1px solid var(--border);
+    }
+    .media-kind { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--text-muted); }
+    .media-delete {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+    }
+    .media-delete:hover { background: var(--accent-light); color: var(--accent-dark); }
+    .media-add {
+      border: 2px dashed var(--primary);
+      background: var(--primary-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--primary-dark);
+      font-weight: 600;
+      font-size: 14px;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    .media-add:hover { transform: translateY(-3px); background: #D8F0EB; }
+    .media-placeholder {
+      border: 2px dashed var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #C9BFAF;
+    }
+    .media-note { margin-top: 18px; font-size: 12.5px; color: var(--text-muted); font-style: italic; }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(30, 26, 22, 0.82);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .lightbox[hidden] { display: none; }
+    .lightbox-content { max-width: 100%; max-height: 100%; display: flex; justify-content: center; }
+    .lightbox-content img, .lightbox-content video {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-close:hover { background: rgba(255, 255, 255, 0.3); }
 
     /* ===== Accessibility: reduced motion ===== */
     @media (prefers-reduced-motion: reduce) {
@@ -792,6 +1004,7 @@
         <li><a href="#about">About / 关于</a></li>
         <li><a href="#projects">Projects / 项目</a></li>
         <li><a href="#skills">Skills / 技能</a></li>
+        <li><a href="#vlog">Vlog / 影像</a></li>
         <li><a href="#contact">Contact / 联系</a></li>
       </ul>
 
@@ -809,6 +1022,7 @@
       <a href="#about" onclick="closeMobileMenu()">About / 关于</a>
       <a href="#projects" onclick="closeMobileMenu()">Projects / 项目</a>
       <a href="#skills" onclick="closeMobileMenu()">Skills / 技能</a>
+      <a href="#vlog" onclick="closeMobileMenu()">Vlog / 影像</a>
       <a href="#contact" onclick="closeMobileMenu()">Contact / 联系</a>
     </div>
   </nav>
@@ -816,17 +1030,42 @@
   <main>
     <!-- ===== Hero ===== -->
     <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero-art" aria-hidden="true">
+        <svg class="art art-blob" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#2A9D8F" fill-opacity="0.15" d="M100 20 C140 20 180 55 180 100 C180 145 145 180 100 180 C60 180 25 150 20 105 C15 60 60 20 100 20 Z"/>
+        </svg>
+        <svg class="art art-spiral" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100 100 C 108 100 112 106 110 112 C 106 122 92 124 84 116 C 74 106 76 88 90 82 C 106 75 124 86 128 102 C 133 122 118 140 98 142 C 74 144 58 124 62 102 C 66 78 90 64 112 70"
+            stroke="#E76F51" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <svg class="art art-triangle" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100 30 L170 150 L30 150 Z" fill="none" stroke="#F4A261" stroke-width="6" stroke-linejoin="round"/>
+        </svg>
+        <svg class="art art-wave" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 60 Q 30 30 50 60 T 90 60 T 130 60 T 170 60" fill="none" stroke="#2A9D8F" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+        <svg class="art art-plus-1" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4 V36 M4 20 H36" stroke="#E76F51" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+        <svg class="art art-plus-2" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4 V36 M4 20 H36" stroke="#2A9D8F" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+        <svg class="art art-dot-1" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="14" fill="#F4A261"/></svg>
+        <svg class="art art-dot-2" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="14" fill="#2A9D8F"/></svg>
+        <svg class="art art-dot-3" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="14" fill="#E76F51"/></svg>
+      </div>
       <div class="container hero-inner">
         <div class="hero-content">
           <h1 class="hero-name reveal" id="hero-title">
             Hi, I'm <span>Zhongshuai G</span>
           </h1>
+          <p class="hero-name-zh reveal delay-1">高忠帅</p>
           <p class="hero-tagline reveal delay-1">
             <span class="lang-label en">EN</span>
             Learning by building — automotive software, pixel games, and AI.
           </p>
           <p class="hero-tagline zh reveal delay-2">
-            <span class="lang-label zh">中</span>
+            <span class="lang-label zh">中文</span>
             在创造中学习——车载软件、像素游戏与人工智能。
           </p>
           <div class="hero-location reveal delay-3">
@@ -854,8 +1093,13 @@
         </div>
 
         <div class="hero-avatar-wrap reveal delay-2">
-          <div class="hero-avatar" aria-label="Avatar illustration of Zhongshuai G" role="img">
-            <!-- Custom inline SVG avatar -->
+          <div class="avatar-bubble" id="avatarBubble" aria-live="polite">
+            <span class="bubble-en" id="bubbleEn">Touch my head!</span>
+            <span class="bubble-zh" id="bubbleZh">摸摸我的头</span>
+          </div>
+          <button type="button" class="hero-avatar mood-normal" id="heroAvatar"
+            aria-label="Interactive avatar of Zhongshuai G — touch my head to change my expression">
+            <!-- Custom inline SVG avatar with switchable expressions -->
             <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
                 <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -873,18 +1117,8 @@
               <!-- Ears -->
               <ellipse cx="56" cy="102" rx="6" ry="9" fill="#F5D6B8"/>
               <ellipse cx="144" cy="102" rx="6" ry="9" fill="#F5D6B8"/>
-              <!-- Eyebrows -->
-              <path d="M 75 90 Q 80 87 87 90" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-              <path d="M 113 90 Q 120 87 125 90" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-              <!-- Eyes -->
-              <circle cx="80" cy="102" r="4" fill="#2D2A26"/>
-              <circle cx="120" cy="102" r="4" fill="#2D2A26"/>
-              <circle cx="81.5" cy="100.5" r="1.5" fill="#fff"/>
-              <circle cx="121.5" cy="100.5" r="1.5" fill="#fff"/>
               <!-- Nose -->
               <path d="M 100 108 Q 97 118 100 122 Q 103 118 100 108" stroke="#D4B090" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-              <!-- Mouth / smile -->
-              <path d="M 88 132 Q 100 140 112 132" stroke="#C2553A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
               <!-- Cheeks -->
               <ellipse cx="72" cy="120" rx="7" ry="4" fill="#F4B8A8" opacity="0.6"/>
               <ellipse cx="128" cy="120" rx="7" ry="4" fill="#F4B8A8" opacity="0.6"/>
@@ -894,8 +1128,51 @@
               <path d="M 60 200 Q 60 170 85 160 L 95 165 L 100 158 L 105 165 L 115 160 Q 140 170 140 200 Z" fill="#2A9D8F"/>
               <!-- Collar detail -->
               <path d="M 85 160 L 95 165 L 100 158 L 105 165 L 115 160 L 110 170 L 100 167 L 90 170 Z" fill="#21867A"/>
+
+              <!-- Expression: normal -->
+              <g class="expr" id="expr-normal">
+                <path d="M 75 90 Q 80 87 87 90" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <path d="M 113 90 Q 120 87 125 90" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <circle cx="80" cy="102" r="4" fill="#2D2A26"/>
+                <circle cx="120" cy="102" r="4" fill="#2D2A26"/>
+                <circle cx="81.5" cy="100.5" r="1.5" fill="#fff"/>
+                <circle cx="121.5" cy="100.5" r="1.5" fill="#fff"/>
+                <path d="M 88 132 Q 100 140 112 132" stroke="#C2553A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              </g>
+
+              <!-- Expression: happy laugh -->
+              <g class="expr" id="expr-happy">
+                <path d="M 73 103 Q 80 95 87 103" stroke="#2D2A26" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+                <path d="M 113 103 Q 120 95 127 103" stroke="#2D2A26" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+                <path d="M 82 130 Q 100 150 118 130 Q 100 138 82 130 Z" fill="#8C3A28"/>
+                <path d="M 90 140 Q 100 148 110 140 Q 100 143 90 140 Z" fill="#E8857A"/>
+              </g>
+
+              <!-- Expression: surprised -->
+              <g class="expr" id="expr-surprised">
+                <path d="M 74 85 Q 80 82 87 85" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <path d="M 113 85 Q 120 82 125 85" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <circle cx="80" cy="102" r="5.5" fill="#2D2A26"/>
+                <circle cx="120" cy="102" r="5.5" fill="#2D2A26"/>
+                <circle cx="82" cy="100" r="1.8" fill="#fff"/>
+                <circle cx="122" cy="100" r="1.8" fill="#fff"/>
+                <ellipse cx="100" cy="135" rx="6.5" ry="8.5" fill="#8C3A28"/>
+              </g>
+
+              <!-- Expression: wink -->
+              <g class="expr" id="expr-wink">
+                <path d="M 74 88 Q 80 85 87 88" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <path d="M 113 90 Q 120 87 125 90" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <path d="M 73 103 Q 80 95 87 103" stroke="#2D2A26" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+                <circle cx="120" cy="102" r="4" fill="#2D2A26"/>
+                <circle cx="121.5" cy="100.5" r="1.5" fill="#fff"/>
+                <path d="M 88 133 Q 102 138 112 130" stroke="#C2553A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              </g>
             </svg>
-          </div>
+          </button>
+          <svg class="avatar-hand" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 4 L10 30 L16 24 L20 32 L24 30 L20 22 L28 22 Z" fill="#2D2A26" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
         </div>
       </div>
     </section>
@@ -913,8 +1190,8 @@
             I'm a final-year university student who loves turning curiosity into working projects. Whether it's decoding vehicle communication protocols, crafting pixel-art game worlds, or building AI-powered tools that actually help people — I get my energy from making things that work. Right now I'm deepening my automotive testing skills with CAN bus and CANoe, exploring game development from mechanics to pixel art, experimenting with AI application toolchains, and preparing for IELTS. Self-driven, hands-on, and always learning by doing.
           </p>
           <p>
-            <span class="lang-label zh">中</span>
-            我是一名大四学生，喜欢把好奇心变成能跑起来的项目。无论是解码车载通信协议、打造像素游戏世界，还是构建真正能帮到人的 AI 工具——我都从“把东西做出来”中获得能量。目前我正在深耕汽车测试领域的 CAN 总线与 CANoe 技术，探索从玩法到像素美术的游戏开发，实验 AI 应用工具链的搭建，同时也在备考雅思。自驱型选手，动手派，永远在实践中学习。
+            <span class="lang-label zh">中文</span>
+            我是一名大四学生，喜欢把好奇心变成能跑起来的项目。无论是解码车载通信协议、打造像素游戏世界，还是构建真正能帮到人的 AI 工具——我都从"把东西做出来"中获得能量。目前我正在深耕汽车测试领域的 CAN 总线与 CANoe 技术，探索从玩法到像素美术的游戏开发，实验 AI 应用工具链的搭建，同时也在备考雅思。自驱型选手，动手派，永远在实践中学习。
           </p>
         </div>
       </div>
@@ -962,7 +1239,7 @@
                 A fun picture-based English learning app for IELTS, with funny daily-life cartoons, full lessons, quizzes, and speaking practice.
               </p>
               <p class="project-desc">
-                <span class="lang-label zh">中</span>
+                <span class="lang-label zh">中文</span>
                 一款有趣的看图学英语应用，面向雅思备考，包含搞笑生活漫画、完整课程、测验与口语练习。
               </p>
               <div class="project-footer">
@@ -1052,7 +1329,7 @@
                 A 2D pixel emotion-fighting game with stick-figure characters, telling life feelings through combat.
               </p>
               <p class="project-desc">
-                <span class="lang-label zh">中</span>
+                <span class="lang-label zh">中文</span>
                 一款 2D 像素风情绪格斗游戏，以火柴人角色用格斗表达生活情绪。
               </p>
               <div class="project-footer">
@@ -1107,7 +1384,7 @@
                 Hands-on study of vnpy, an open-source Python quant-trading framework, plus CAN-bus/CANoe vehicle testing practice and protocol document processing.
               </p>
               <p class="project-desc">
-                <span class="lang-label zh">中</span>
+                <span class="lang-label zh">中文</span>
                 动手学习开源 Python 量化交易框架 vnpy，并实践 CAN 总线/CANoe 车载测试与协议文档处理。
               </p>
               <div class="project-footer">
@@ -1260,6 +1537,70 @@
       </div>
     </section>
 
+    <!-- ===== My vlog and daily life ===== -->
+    <section class="section" id="vlog" aria-labelledby="vlog-title">
+      <div class="vlog-art" aria-hidden="true">
+        <svg class="vlog-art-blob" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#2A9D8F" fill-opacity="0.12" d="M100 20 C140 20 180 55 180 100 C180 145 145 180 100 180 C60 180 25 150 20 105 C15 60 60 20 100 20 Z"/>
+        </svg>
+        <svg class="vlog-art-spiral" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100 100 C 108 100 112 106 110 112 C 106 122 92 124 84 116 C 74 106 76 88 90 82 C 106 75 124 86 128 102 C 133 122 118 140 98 142 C 74 144 58 124 62 102 C 66 78 90 64 112 70"
+            stroke="#E76F51" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="container">
+        <h2 class="section-title reveal" id="vlog-title">
+          My vlog and daily life
+          <span class="section-title-en">我的影像与日常</span>
+        </h2>
+        <p class="vlog-intro reveal delay-1">
+          <span class="lang-label en">EN</span>
+          A little gallery of my everyday moments — photos and vlogs. Tap “Add” to keep them here on this device.
+          <br />
+          <span class="lang-label zh">中文</span>
+          存放日常照片与短视频的小空间，点击“添加”即可保存在本机浏览器中。
+        </p>
+
+        <div class="media-grid reveal delay-2" id="mediaGrid">
+          <button type="button" class="media-add" id="mediaAddBtn" aria-label="Add photo or video">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="16"></line>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+            <span>Add photo / video<br />添加照片或视频</span>
+          </button>
+
+          <div class="media-placeholder" aria-hidden="true">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+              <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+          </div>
+
+          <div class="media-placeholder" aria-hidden="true">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+              <line x1="7" y1="2" x2="7" y2="22"></line>
+              <line x1="17" y1="2" x2="17" y2="22"></line>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <line x1="2" y1="7" x2="7" y2="7"></line>
+              <line x1="2" y1="17" x2="7" y2="17"></line>
+              <line x1="17" y1="17" x2="22" y2="17"></line>
+              <line x1="17" y1="7" x2="22" y2="7"></line>
+            </svg>
+          </div>
+        </div>
+
+        <p class="media-note reveal delay-3">
+          Items added here are stored privately in this browser on this device. To make a photo or vlog visible to every visitor on every device, send me the file and I will embed it permanently. ·
+          添加的内容私密保存在本机浏览器；若想让所有访客在任何设备都能看到，把文件发给我，我会永久嵌入网站。
+        </p>
+
+        <input type="file" id="mediaFileInput" accept="image/*,video/*" multiple hidden />
+      </div>
+    </section>
+
     <!-- ===== Contact ===== -->
     <section class="section" id="contact" aria-labelledby="contact-title">
       <div class="container">
@@ -1278,7 +1619,7 @@
             Thanks for stopping by! I'm always happy to chat about projects, ideas, or opportunities.
           </p>
           <p>
-            <span class="lang-label zh">中</span>
+            <span class="lang-label zh">中文</span>
             感谢你的到访！我很乐意聊聊项目、想法或合作机会。
           </p>
         </div>
@@ -1322,6 +1663,12 @@
     </div>
   </footer>
 
+  <!-- ===== Lightbox ===== -->
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Media viewer">
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close viewer">&times;</button>
+    <div class="lightbox-content" id="lightboxContent"></div>
+  </div>
+
   <script>
     // ===== Navigation scroll effect =====
     const nav = document.getElementById('nav');
@@ -1357,7 +1704,7 @@
     // Close mobile menu when clicking outside
     document.addEventListener('click', function (e) {
       if (!nav.contains(e.target) && mobileMenu.classList.contains('open')) {
-        closeMobileMenu(e);
+        closeMobileMenu();
       }
     });
 
@@ -1394,6 +1741,210 @@
         navToggle.focus();
       }
     });
+
+    // ===== Interactive avatar: expressions =====
+    const avatar = document.getElementById('heroAvatar');
+    const bubbleEn = document.getElementById('bubbleEn');
+    const bubbleZh = document.getElementById('bubbleZh');
+    const moodClasses = ['mood-normal', 'mood-happy', 'mood-surprised', 'mood-wink'];
+    const moodTexts = {
+      normal: ['Touch my head!', '摸摸我的头'],
+      happy: ['Heehee, that tickles!', '嘻嘻，好痒！'],
+      surprised: ['Whoa! You surprised me!', '哇，你吓到我啦！'],
+      wink: ['Stay curious, my friend.', '保持好奇，朋友。']
+    };
+    const cycle = ['normal', 'surprised', 'wink', 'happy'];
+    let moodIndex = 0;
+
+    function setMood(mood) {
+      moodClasses.forEach(function (c) { avatar.classList.remove(c); });
+      avatar.classList.add('mood-' + mood);
+      bubbleEn.textContent = moodTexts[mood][0];
+      bubbleZh.textContent = moodTexts[mood][1];
+    }
+
+    avatar.addEventListener('mouseenter', function () {
+      if (avatar.classList.contains('mood-normal')) setMood('happy');
+    });
+    avatar.addEventListener('mouseleave', function () {
+      moodIndex = 0;
+      setMood('normal');
+    });
+    avatar.addEventListener('click', function () {
+      moodIndex = (moodIndex + 1) % cycle.length;
+      setMood(cycle[moodIndex]);
+    });
+    avatar.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        moodIndex = (moodIndex + 1) % cycle.length;
+        setMood(cycle[moodIndex]);
+      }
+    });
+
+    // ===== Media gallery (IndexedDB) =====
+    const DB_NAME = 'picas-profile-v2';
+    const STORE = 'media';
+    let dbPromise = null;
+
+    function openDB() {
+      if (dbPromise) return dbPromise;
+      dbPromise = new Promise(function (resolve, reject) {
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = function () {
+          const db = req.result;
+          if (!db.objectStoreNames.contains(STORE)) {
+            db.createObjectStore(STORE, { keyPath: 'id' });
+          }
+        };
+        req.onsuccess = function () { resolve(req.result); };
+        req.onerror = function () { reject(req.error); };
+      });
+      return dbPromise;
+    }
+
+    function idbAll() {
+      return openDB().then(function (db) {
+        return new Promise(function (resolve, reject) {
+          const r = db.transaction(STORE).objectStore(STORE).getAll();
+          r.onsuccess = function () { resolve(r.result); };
+          r.onerror = function () { reject(r.error); };
+        });
+      });
+    }
+
+    function idbPut(rec) {
+      return openDB().then(function (db) {
+        return new Promise(function (resolve, reject) {
+          const r = db.transaction(STORE, 'readwrite').objectStore(STORE).put(rec);
+          r.onsuccess = function () { resolve(); };
+          r.onerror = function () { reject(r.error); };
+        });
+      });
+    }
+
+    function idbDel(id) {
+      return openDB().then(function (db) {
+        return new Promise(function (resolve, reject) {
+          const r = db.transaction(STORE, 'readwrite').objectStore(STORE).delete(id);
+          r.onsuccess = function () { resolve(); };
+          r.onerror = function () { reject(r.error); };
+        });
+      });
+    }
+
+    const mediaGrid = document.getElementById('mediaGrid');
+    const addBtn = document.getElementById('mediaAddBtn');
+    const fileInput = document.getElementById('mediaFileInput');
+    const placeholders = mediaGrid.querySelectorAll('.media-placeholder');
+    const objectUrls = new Map();
+
+    function escapeAttr(s) {
+      return String(s || 'media').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    }
+
+    function urlFor(rec) {
+      if (!objectUrls.has(rec.id)) objectUrls.set(rec.id, URL.createObjectURL(rec.blob));
+      return objectUrls.get(rec.id);
+    }
+
+    function openLightbox(rec) {
+      const url = urlFor(rec);
+      const isVideo = rec.type.startsWith('video/');
+      const safeName = escapeAttr(rec.name);
+      lightboxContent.innerHTML = isVideo
+        ? '<video src="' + url + '" controls autoplay playsinline></video>'
+        : '<img src="' + url + '" alt="' + safeName + '">';
+      lightbox.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.hidden = true;
+      lightboxContent.innerHTML = '';
+      document.body.style.overflow = '';
+    }
+
+    function renderMedia(items) {
+      mediaGrid.querySelectorAll('.media-card').forEach(function (n) { n.remove(); });
+      const sorted = items.slice().sort(function (a, b) { return a.createdAt - b.createdAt; });
+      sorted.forEach(function (rec) {
+        const url = urlFor(rec);
+        const isVideo = rec.type.startsWith('video/');
+        const safeName = escapeAttr(rec.name);
+        const card = document.createElement('div');
+        card.className = 'media-card';
+        card.innerHTML =
+          '<button type="button" class="media-view" aria-label="View ' + safeName + '">' +
+            (isVideo
+              ? '<video src="' + url + '" muted playsinline preload="metadata"></video><span class="media-play">&#9654;</span>'
+              : '<img src="' + url + '" alt="' + safeName + '">') +
+          '</button>' +
+          '<div class="media-bar">' +
+            '<span class="media-kind">' + (isVideo ? 'VLOG' : 'PHOTO') + '</span>' +
+            '<button type="button" class="media-delete" aria-label="Delete ' + safeName + '">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                '<polyline points="3 6 5 6 21 6"></polyline>' +
+                '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>' +
+              '</svg>' +
+            '</button>' +
+          '</div>';
+        card.querySelector('.media-view').addEventListener('click', function () { openLightbox(rec); });
+        card.querySelector('.media-delete').addEventListener('click', async function () {
+          if (confirm('Remove this item from this device? · 确定从本机删除？')) {
+            await idbDel(rec.id);
+            const u = objectUrls.get(rec.id);
+            if (u) { URL.revokeObjectURL(u); objectUrls.delete(rec.id); }
+            loadMedia();
+          }
+        });
+        mediaGrid.appendChild(card);
+      });
+      placeholders.forEach(function (p) { p.style.display = sorted.length ? 'none' : ''; });
+    }
+
+    async function loadMedia() {
+      try {
+        const items = await idbAll();
+        renderMedia(items || []);
+      } catch (err) {
+        console.error('Media load failed:', err);
+      }
+    }
+
+    addBtn.addEventListener('click', function () { fileInput.click(); });
+    fileInput.addEventListener('change', async function () {
+      const files = Array.from(fileInput.files || []);
+      try {
+        for (const f of files) {
+          await idbPut({
+            id: 'm_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+            type: f.type || 'application/octet-stream',
+            name: f.name,
+            blob: f,
+            createdAt: Date.now()
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Could not save the file (storage may be full). · 保存失败，存储空间可能已满。');
+      }
+      fileInput.value = '';
+      loadMedia();
+    });
+
+    // Lightbox wiring
+    const lightbox = document.getElementById('lightbox');
+    const lightboxContent = document.getElementById('lightboxContent');
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
+    });
+
+    loadMedia();
   </script>
 </body>
 </html>
