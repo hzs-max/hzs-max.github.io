@@ -1,0 +1,20 @@
+name: Sync profile
+on:
+  push:
+    paths:
+      - '.github/workflows/sync-profile.yml'
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and commit
+        run: |
+          curl -sL 'https://dpaste.org/FT4GK/raw' -o index.html
+          git config user.name 'hzs-max'
+          git config user.email '2181064067@qq.com'
+          git add index.html
+          git commit -m 'Link Fire Color Life game on profile' || echo 'no changes'
+          git push
