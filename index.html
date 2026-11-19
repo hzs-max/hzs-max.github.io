@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zhongshuai G — Portfolio</title>
+  <meta name="description" content="Personal portfolio of Zhongshuai G — automotive software, pixel games, and AI." />
+  <style>
+    /* ===== CSS Variables ===== */
+    :root {
+      --bg: #FFF8EE;
+      --card: #FFFFFF;
+      --primary: #2A9D8F;
+      --primary-dark: #21867A;
+      --primary-light: #E6F5F2;
+      --accent: #E76F51;
+      --accent-dark: #D85A3B;
+      --accent-light: #FDE8E1;
+      --text: #2D2A26;
+      --text-muted: #7A7368;
+      --border: #EDE3D3;
+      --shadow: 0 4px 20px rgba(45, 42, 38, 0.06);
+      --shadow-lg: 0 8px 30px rgba(45, 42, 38, 0.1);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --radius-pill: 999px;
+    }
+
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+    }
+
+    /* ===== Utility Classes ===== */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 32px;
+      position: relative;
+      padding-left: 14px;
+    }
+
+    .section-title::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 6px;
+      bottom: 6px;
+      width: 4px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, var(--primary), var(--accent));
+    }
+
+    .section-title-en {
+      font-size: 15px;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Language label pill */
+    .lang-label {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 600;
+      margin-right: 8px;
+      vertical-align: middle;
+      letter-spacing: 0.3px;
+    }
+    .lang-label.en {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+    .lang-label.zh {
+      background: var(--accent-light);
+      color: var(--accent-dark);
+    }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal.delay-1 { transition-delay: 0.1s; }
+    .reveal.delay-2 { transition-delay: 0.2s; }
+    .reveal.delay-3 { transition-delay: 0.3s; }
+    .reveal.delay-4 { transition-delay: 0.4s; }
+    .reveal.delay-5 { transition-delay: 0.5s; }
+
+    /* ===== Navigation ===== */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: background-color 0.3s ease, backdrop-filter 0.3s ease,
+                  box-shadow 0.3s ease;
+      background: transparent;
+    }
+    .nav.scrolled {
+      background: rgba(255, 248, 238, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 rgba(45, 42, 38, 0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text);
+    }
+    .nav-logo-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(42, 157, 143, 0.3);
+    }
+
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+    .nav-links a {
+      display: block;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color 0.2s ease, background-color 0.2s ease;
+    }
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text);
+      background: rgba(42, 157, 143, 0.08);
+    }
+    .nav-links a:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .nav-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      transition: background-color 0.2s ease;
+    }
+    .nav-toggle:hover { background: rgba(45, 42, 38, 0.06); }
+    .nav-toggle:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: var(--card);
+      box-shadow: var(--shadow-lg);
+      padding: 8px;
+      border-bottom-left-radius: var(--radius);
+      border-bottom-right-radius: var(--radius);
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a {
+      display: block;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .mobile-menu a:hover,
+    .mobile-menu a:focus-visible {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      padding: 60px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(42, 157, 143, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: -50px;
+      left: -100px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(231, 111, 81, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      gap: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-content {
+      flex: 1;
+      text-align: center;
+    }
+    .hero-avatar-wrap {
+      flex-shrink: 0;
+    }
+
+    .hero-name {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+    .hero-name span {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .hero-tagline {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .hero-tagline.zh { margin-bottom: 24px; }
+
+    .hero-location {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+    .hero-location svg { flex-shrink: 0; }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease,
+                  background-color 0.2s ease, color 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(42, 157, 143, 0.3);
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(42, 157, 143, 0.35);
+    }
+    .btn-secondary {
+      background: var(--card);
+      color: var(--primary-dark);
+      border: 1.5px solid var(--primary);
+    }
+    .btn-secondary:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+    }
+    .btn-icon {
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    .btn-icon:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .btn-icon:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Avatar */
+    .hero-avatar {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
+      box-shadow: 0 8px 30px rgba(42, 157, 143, 0.15),
+                  0 0 0 6px rgba(255, 255, 255, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: float 3.5s ease-in-out infinite;
+      overflow: hidden;
+    }
+    .hero-avatar svg { width: 100%; height: 100%; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* ===== About ===== */
+    .about-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+    .about-card p {
+      margin-bottom: 18px;
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+    .about-card p:last-child { margin-bottom: 0; }
+
+    /* ===== Projects ===== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .project-thumb {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-thumb svg {
+      width: 70%;
+      max-height: 100px;
+    }
+
+    .project-body {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .project-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge-accent {
+      background: var(--accent-light);
+      color: var(--accent-dark);
+    }
+
+    .project-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .project-desc:last-of-type { margin-bottom: 18px; }
+
+    .project-footer {
+      margin-top: auto;
+      padding-top: 4px;
+    }
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+      transition: gap 0.2s ease, color 0.2s ease;
+    }
+    .project-link:hover {
+      gap: 10px;
+      color: var(--primary-dark);
+    }
+    .project-link:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .project-link.disabled {
+      color: var(--text-muted);
+      cursor: default;
+      font-weight: 500;
+    }
+
+    /* ===== Skills ===== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .skill-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .skill-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .skill-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .skill-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .skill-icon.teal { background: var(--primary-light); color: var(--primary); }
+    .skill-icon.accent { background: var(--accent-light); color: var(--accent); }
+    .skill-icon.sand { background: #F5EFE2; color: #A68B5B; }
+
+    .skill-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .skill-title-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: block;
+    }
+
+    .skill-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .chip {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 500;
+      background: #F5F0E6;
+      color: var(--text);
+    }
+    .chip.teal { background: var(--primary-light); color: var(--primary-dark); }
+    .chip.accent { background: var(--accent-light); color: var(--accent-dark); }
+
+    .focus-card {
+      background: linear-gradient(135deg, var(--accent-light), #FFF1EB);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .focus-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--card);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(231, 111, 81, 0.15);
+    }
+    .focus-content h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .focus-content ul {
+      list-style: none;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .focus-content li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 4px;
+    }
+    .focus-content li::before {
+      content: "✦";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 10px;
+      top: 6px;
+    }
+
+    /* ===== Contact ===== */
+    .contact-intro {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 36px;
+    }
+    .contact-intro p {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      line-height: 1.8;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .contact-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: block;
+    }
+    .contact-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .contact-card:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .contact-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .contact-icon.teal { background: var(--primary); }
+    .contact-icon.dark { background: var(--text); }
+
+    .contact-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .contact-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      word-break: break-all;
+    }
+
+    .contact-footer-text {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ===== Responsive: tablet ===== */
+    @media (min-width: 640px) {
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ===== Responsive: desktop ===== */
+    @media (min-width: 768px) {
+      .section { padding: 100px 0; }
+      .section-title { font-size: 32px; }
+
+      .nav-links { display: flex; }
+      .nav-toggle { display: none; }
+      .mobile-menu { display: none !important; }
+
+      .hero { padding: 80px 0 100px; }
+      .hero-inner {
+        flex-direction: row;
+        gap: 60px;
+        text-align: left;
+      }
+      .hero-content { text-align: left; }
+      .hero-name { font-size: 52px; }
+      .hero-tagline { font-size: 17px; }
+      .hero-buttons { justify-content: flex-start; }
+      .hero-avatar { width: 240px; height: 240px; }
+
+      .about-card { padding: 40px; }
+      .about-card p { font-size: 16px; }
+    }
+
+    /* ===== Responsive: large desktop ===== */
+    @media (min-width: 1024px) {
+      .projects-grid { grid-template-columns: repeat(3, 1fr); }
+      .skills-grid { grid-template-columns: repeat(3, 1fr); }
+      .hero-name { font-size: 56px; }
+    }
+
+    /* ===== Accessibility: reduced motion ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Navigation ===== -->
+  <nav class="nav" id="nav" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="Zhongshuai G - Home">
+        <span class="nav-logo-badge">Z.G</span>
+        <span>Zhongshuai G</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#hero">Home / 首页</a></li>
+        <li><a href="#about">About / 关于</a></li>
+        <li><a href="#projects">Projects / 项目</a></li>
+        <li><a href="#skills">Skills / 技能</a></li>
+        <li><a href="#contact">Contact / 联系</a></li>
+      </ul>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#hero" onclick="closeMobileMenu()">Home / 首页</a>
+      <a href="#about" onclick="closeMobileMenu()">About / 关于</a>
+      <a href="#projects" onclick="closeMobileMenu()">Projects / 项目</a>
+      <a href="#skills" onclick="closeMobileMenu()">Skills / 技能</a>
+      <a href="#contact" onclick="closeMobileMenu()">Contact / 联系</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <h1 class="hero-name reveal" id="hero-title">
+            Hi, I'm <span>Zhongshuai G</span>
+          </h1>
+          <p class="hero-tagline reveal delay-1">
+            <span class="lang-label en">EN</span>
+            Learning by building — automotive software, pixel games, and AI.
+          </p>
+          <p class="hero-tagline zh reveal delay-2">
+            <span class="lang-label zh">中</span>
+            在创造中学习——车载软件、像素游戏与人工智能。
+          </p>
+          <div class="hero-location reveal delay-3">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            Shanghai, China / 中国上海
+          </div>
+          <div class="hero-buttons reveal delay-3">
+            <a href="#projects" class="btn btn-primary">
+              View Projects
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            <a href="https://github.com/hzs-max" class="btn-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-avatar-wrap reveal delay-2">
+          <div class="hero-avatar" aria-label="Avatar illustration of Zhongshuai G" role="img">
+            <!-- Custom inline SVG avatar -->
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#E6F5F2"/>
+                  <stop offset="100%" style="stop-color:#FDE8E1"/>
+                </linearGradient>
+              </defs>
+              <circle cx="100" cy="100" r="100" fill="url(#bgGrad)"/>
+              <!-- Hair back -->
+              <path d="M 50 75 Q 45 45 75 35 Q 100 25 130 38 Q 155 48 152 80 L 148 75 Q 140 60 125 55 Q 105 48 85 52 Q 65 56 55 70 Z" fill="#4A3728"/>
+              <!-- Face -->
+              <ellipse cx="100" cy="100" rx="45" ry="50" fill="#F5D6B8"/>
+              <!-- Hair front / bangs -->
+              <path d="M 58 78 Q 55 55 80 48 Q 100 42 125 50 Q 145 58 143 82 L 138 78 Q 132 65 120 62 Q 105 58 92 60 Q 75 62 65 72 Z" fill="#4A3728"/>
+              <!-- Ears -->
+              <ellipse cx="56" cy="102" rx="6" ry="9" fill="#F5D6B8"/>
+              <ellipse cx="144" cy="102" rx="6" ry="9" fill="#F5D6B8"/>
+              <!-- Eyebrows -->
+              <path d="M 75 90 Q 80 87 87 90" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <path d="M 113 90 Q 120 87 125 90" stroke="#4A3728" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <!-- Eyes -->
+              <circle cx="80" cy="102" r="4" fill="#2D2A26"/>
+              <circle cx="120" cy="102" r="4" fill="#2D2A26"/>
+              <circle cx="81.5" cy="100.5" r="1.5" fill="#fff"/>
+              <circle cx="121.5" cy="100.5" r="1.5" fill="#fff"/>
+              <!-- Nose -->
+              <path d="M 100 108 Q 97 118 100 122 Q 103 118 100 108" stroke="#D4B090" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- Mouth / smile -->
+              <path d="M 88 132 Q 100 140 112 132" stroke="#C2553A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <!-- Cheeks -->
+              <ellipse cx="72" cy="120" rx="7" ry="4" fill="#F4B8A8" opacity="0.6"/>
+              <ellipse cx="128" cy="120" rx="7" ry="4" fill="#F4B8A8" opacity="0.6"/>
+              <!-- Neck -->
+              <rect x="90" y="145" width="20" height="15" fill="#F5D6B8"/>
+              <!-- Shirt / collar -->
+              <path d="M 60 200 Q 60 170 85 160 L 95 165 L 100 158 L 105 165 L 115 160 Q 140 170 140 200 Z" fill="#2A9D8F"/>
+              <!-- Collar detail -->
+              <path d="M 85 160 L 95 165 L 100 158 L 105 165 L 115 160 L 110 170 L 100 167 L 90 170 Z" fill="#21867A"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <h2 class="section-title reveal" id="about-title">
+          About Me
+          <span class="section-title-en">关于我</span>
+        </h2>
+        <div class="about-card reveal delay-1">
+          <p>
+            <span class="lang-label en">EN</span>
+            I'm a final-year university student who loves turning curiosity into working projects. Whether it's decoding vehicle communication protocols, crafting pixel-art game worlds, or building AI-powered tools that actually help people — I get my energy from making things that work. Right now I'm deepening my automotive testing skills with CAN bus and CANoe, exploring game development from mechanics to pixel art, experimenting with AI application toolchains, and preparing for IELTS. Self-driven, hands-on, and always learning by doing.
+          </p>
+          <p>
+            <span class="lang-label zh">中</span>
+            我是一名大四学生，喜欢把好奇心变成能跑起来的项目。无论是解码车载通信协议、打造像素游戏世界，还是构建真正能帮到人的 AI 工具——我都从“把东西做出来”中获得能量。目前我正在深耕汽车测试领域的 CAN 总线与 CANoe 技术，探索从玩法到像素美术的游戏开发，实验 AI 应用工具链的搭建，同时也在备考雅思。自驱型选手，动手派，永远在实践中学习。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Projects ===== -->
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <h2 class="section-title reveal" id="projects-title">
+          Featured Projects
+          <span class="section-title-en">精选项目</span>
+        </h2>
+
+        <div class="projects-grid">
+          <!-- Project 1: PiCas -->
+          <article class="project-card reveal delay-1">
+            <div class="project-thumb" style="background: linear-gradient(135deg, #F9C74F, #F4A261);" aria-hidden="true">
+              <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                <!-- Camera body -->
+                <rect x="55" y="30" width="90" height="65" rx="14" fill="#FFF8EE" opacity="0.95"/>
+                <!-- Lens -->
+                <circle cx="100" cy="62" r="22" fill="#2D2A26"/>
+                <circle cx="100" cy="62" r="16" fill="#3D3A34"/>
+                <circle cx="100" cy="62" r="10" fill="#2D2A26"/>
+                <circle cx="94" cy="56" r="4" fill="#5A5650" opacity="0.6"/>
+                <!-- Flash -->
+                <rect x="125" y="40" width="12" height="8" rx="2" fill="#E0D8CB"/>
+                <!-- Button -->
+                <rect x="70" y="25" width="16" height="6" rx="2" fill="#E76F51"/>
+                <!-- Picture preview frame -->
+                <rect x="25" y="50" width="35" height="45" rx="4" fill="#fff" opacity="0.9" transform="rotate(-8 42 72)"/>
+                <rect x="29" y="54" width="27" height="32" rx="2" fill="#2A9D8F" opacity="0.3" transform="rotate(-8 42 72)"/>
+                <!-- Sparkles -->
+                <circle cx="165" cy="45" r="3" fill="#fff" opacity="0.8"/>
+                <circle cx="160" cy="70" r="2" fill="#fff" opacity="0.6"/>
+                <circle cx="175" cy="60" r="2.5" fill="#fff" opacity="0.7"/>
+              </svg>
+            </div>
+            <div class="project-body">
+              <div class="project-header">
+                <h3 class="project-title">PiCas</h3>
+              </div>
+              <p class="project-desc">
+                <span class="lang-label en">EN</span>
+                A fun picture-based English learning app for IELTS, with funny daily-life cartoons, full lessons, quizzes, and speaking practice.
+              </p>
+              <p class="project-desc">
+                <span class="lang-label zh">中</span>
+                一款有趣的看图学英语应用，面向雅思备考，包含搞笑生活漫画、完整课程、测验与口语练习。
+              </p>
+              <div class="project-footer">
+                <a href="https://hzs-max.github.io/picas/" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="Open PiCas website in new tab">
+                  Open PiCas
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2: Fire Color Life -->
+          <article class="project-card reveal delay-2">
+            <div class="project-thumb" style="background: linear-gradient(135deg, #2D2A26, #4A3F35);" aria-hidden="true">
+              <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                <!-- Ground / pixels -->
+                <rect x="0" y="100" width="200" height="20" fill="#1A1815"/>
+                <rect x="10" y="100" width="10" height="4" fill="#3D3428"/>
+                <rect x="30" y="100" width="8" height="4" fill="#3D3428"/>
+                <rect x="60" y="100" width="12" height="4" fill="#3D3428"/>
+                <rect x="90" y="100" width="8" height="4" fill="#3D3428"/>
+                <rect x="120" y="100" width="10" height="4" fill="#3D3428"/>
+                <rect x="150" y="100" width="8" height="4" fill="#3D3428"/>
+                <rect x="180" y="100" width="10" height="4" fill="#3D3428"/>
+
+                <!-- Left stick figure (fighter) - pixel style -->
+                <g fill="#FFF8EE">
+                  <!-- Head -->
+                  <rect x="48" y="28" width="14" height="14" rx="2"/>
+                  <!-- Body -->
+                  <rect x="52" y="42" width="6" height="22"/>
+                  <!-- Arms -->
+                  <rect x="38" y="46" width="14" height="5"/>
+                  <rect x="58" y="48" width="12" height="5"/>
+                  <!-- Legs -->
+                  <rect x="46" y="64" width="5" height="18"/>
+                  <rect x="58" y="64" width="5" height="18"/>
+                  <!-- Feet -->
+                  <rect x="44" y="82" width="8" height="4" rx="1"/>
+                  <rect x="58" y="82" width="8" height="4" rx="1"/>
+                </g>
+                <!-- Left fighter punch effect -->
+                <g fill="#E76F51">
+                  <rect x="30" y="44" width="10" height="9" rx="2"/>
+                  <rect x="24" y="46" width="6" height="5" rx="1"/>
+                </g>
+
+                <!-- Right stick figure -->
+                <g fill="#FFF8EE">
+                  <rect x="138" y="28" width="14" height="14" rx="2"/>
+                  <rect x="142" y="42" width="6" height="22"/>
+                  <rect x="148" y="46" width="14" height="5"/>
+                  <rect x="130" y="48" width="12" height="5"/>
+                  <rect x="136" y="64" width="5" height="18"/>
+                  <rect x="148" y="64" width="5" height="18"/>
+                  <rect x="134" y="82" width="8" height="4" rx="1"/>
+                  <rect x="148" y="82" width="8" height="4" rx="1"/>
+                </g>
+                <!-- Right fighter fire effect -->
+                <g fill="#E76F51">
+                  <rect x="160" y="44" width="10" height="9" rx="2"/>
+                </g>
+                <g fill="#F9C74F">
+                  <rect x="166" y="46" width="6" height="5" rx="1"/>
+                </g>
+
+                <!-- Fire sparks -->
+                <circle cx="100" cy="35" r="2" fill="#F9C74F"/>
+                <circle cx="90" cy="50" r="1.5" fill="#E76F51"/>
+                <circle cx="110" cy="45" r="2" fill="#F9C74F"/>
+                <circle cx="100" cy="60" r="1.5" fill="#E76F51"/>
+                <circle cx="85" cy="30" r="1.5" fill="#F9C74F"/>
+                <circle cx="115" cy="32" r="1.5" fill="#F9C74F"/>
+                <circle cx="100" cy="22" r="1" fill="#E76F51"/>
+              </svg>
+            </div>
+            <div class="project-body">
+              <div class="project-header">
+                <h3 class="project-title">火彩人生</h3>
+                <span class="badge badge-accent">In progress · 开发中</span>
+              </div>
+              <p class="project-desc">
+                <span class="lang-label en">EN</span>
+                A 2D pixel emotion-fighting game with stick-figure characters, telling life feelings through combat.
+              </p>
+              <p class="project-desc">
+                <span class="lang-label zh">中</span>
+                一款 2D 像素风情绪格斗游戏，以火柴人角色用格斗表达生活情绪。
+              </p>
+              <div class="project-footer">
+                <span class="project-link disabled">Building… · 开发中</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3: vnpy / Automotive -->
+          <article class="project-card reveal delay-3">
+            <div class="project-thumb" style="background: linear-gradient(135deg, #EDE3D3, #D8C9B0);" aria-hidden="true">
+              <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                <!-- Car silhouette (side view) -->
+                <g fill="#2D2A26" opacity="0.85">
+                  <path d="M 25 75 L 35 55 Q 45 45 60 42 L 100 40 Q 115 42 125 52 L 145 55 Q 160 58 170 72 L 175 75 L 175 85 L 25 85 Z"/>
+                  <!-- Windows -->
+                  <path d="M 50 52 Q 55 48 65 47 L 95 46 Q 105 47 112 55 L 50 55 Z" fill="#EDE3D3" opacity="0.5"/>
+                  <path d="M 105 48 Q 115 50 122 56 L 140 56 L 140 55 Q 130 48 118 47 Z" fill="#EDE3D3" opacity="0.5"/>
+                  <!-- Wheels -->
+                  <circle cx="55" cy="85" r="12" fill="#2D2A26"/>
+                  <circle cx="55" cy="85" r="6" fill="#7A7368"/>
+                  <circle cx="145" cy="85" r="12" fill="#2D2A26"/>
+                  <circle cx="145" cy="85" r="6" fill="#7A7368"/>
+                </g>
+
+                <!-- Chart / candlestick on right side -->
+                <g transform="translate(140, 20)">
+                  <!-- Axis -->
+                  <line x1="0" y1="0" x2="0" y2="65" stroke="#2A9D8F" stroke-width="1.5" opacity="0.6"/>
+                  <line x1="0" y1="65" x2="50" y2="65" stroke="#2A9D8F" stroke-width="1.5" opacity="0.6"/>
+                  <!-- Candlestick 1 -->
+                  <line x1="10" y1="15" x2="10" y2="40" stroke="#2A9D8F" stroke-width="1.5"/>
+                  <rect x="7" y="22" width="6" height="14" fill="#2A9D8F" rx="1"/>
+                  <!-- Candlestick 2 -->
+                  <line x1="22" y1="10" x2="22" y2="35" stroke="#E76F51" stroke-width="1.5"/>
+                  <rect x="19" y="18" width="6" height="12" fill="#E76F51" rx="1"/>
+                  <!-- Candlestick 3 -->
+                  <line x1="34" y1="25" x2="34" y2="55" stroke="#2A9D8F" stroke-width="1.5"/>
+                  <rect x="31" y="32" width="6" height="18" fill="#2A9D8F" rx="1"/>
+                </g>
+
+                <!-- Signal wave -->
+                <path d="M 15 30 Q 25 20 35 30 T 55 30" stroke="#2A9D8F" stroke-width="2" fill="none" opacity="0.6" stroke-dasharray="3 2"/>
+              </svg>
+            </div>
+            <div class="project-body">
+              <div class="project-header">
+                <h3 class="project-title">vnpy · Automotive</h3>
+              </div>
+              <p class="project-desc">
+                <span class="lang-label en">EN</span>
+                Hands-on study of vnpy, an open-source Python quant-trading framework, plus CAN-bus/CANoe vehicle testing practice and protocol document processing.
+              </p>
+              <p class="project-desc">
+                <span class="lang-label zh">中</span>
+                动手学习开源 Python 量化交易框架 vnpy，并实践 CAN 总线/CANoe 车载测试与协议文档处理。
+              </p>
+              <div class="project-footer">
+                <a href="https://github.com/hzs-max/vnpy" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="View vnpy repository on GitHub">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                  </svg>
+                  View on GitHub
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Skills ===== -->
+    <section class="section" id="skills" aria-labelledby="skills-title">
+      <div class="container">
+        <h2 class="section-title reveal" id="skills-title">
+          Skills &amp; Learning
+          <span class="section-title-en">技能与学习</span>
+        </h2>
+
+        <div class="skills-grid">
+          <!-- Skill 1: Programming -->
+          <div class="skill-card reveal delay-1">
+            <div class="skill-header">
+              <div class="skill-icon teal" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+              </div>
+              <div>
+                <div class="skill-title">Programming &amp; Data</div>
+                <span class="skill-title-sub">编程与数据</span>
+              </div>
+            </div>
+            <div class="skill-chips">
+              <span class="chip teal">Python</span>
+              <span class="chip teal">JavaScript</span>
+              <span class="chip teal">TypeScript basics</span>
+              <span class="chip">Git</span>
+            </div>
+          </div>
+
+          <!-- Skill 2: Automotive -->
+          <div class="skill-card reveal delay-2">
+            <div class="skill-header">
+              <div class="skill-icon teal" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 17h14M5 17a2 2 0 0 1-2-2V11l2-5h14l2 5v4a2 2 0 0 1-2 2M7.5 17a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM16.5 17a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="skill-title">Automotive</div>
+                <span class="skill-title-sub">车载软件</span>
+              </div>
+            </div>
+            <div class="skill-chips">
+              <span class="chip teal">CAN bus</span>
+              <span class="chip teal">CANoe</span>
+              <span class="chip">Protocol parsing</span>
+              <span class="chip">Software testing</span>
+            </div>
+          </div>
+
+          <!-- Skill 3: Game & Art -->
+          <div class="skill-card reveal delay-3">
+            <div class="skill-header">
+              <div class="skill-icon accent" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="7" width="20" height="12" rx="3"></rect>
+                  <line x1="8" y1="11" x2="8" y2="15"></line>
+                  <line x1="6" y1="13" x2="10" y2="13"></line>
+                  <line x1="15" y1="12" x2="15.01" y2="12"></line>
+                  <line x1="18" y1="14" x2="18.01" y2="14"></line>
+                </svg>
+              </div>
+              <div>
+                <div class="skill-title">Game &amp; Art</div>
+                <span class="skill-title-sub">游戏与美术</span>
+              </div>
+            </div>
+            <div class="skill-chips">
+              <span class="chip accent">2D Pixel art</span>
+              <span class="chip accent">Game design</span>
+              <span class="chip">TA basics</span>
+            </div>
+          </div>
+
+          <!-- Skill 4: AI & Tools -->
+          <div class="skill-card reveal delay-4">
+            <div class="skill-header">
+              <div class="skill-icon sand" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3l1.912 5.813h6.113l-4.943 3.587 1.888 5.813L12 14.626l-4.97 3.587 1.888-5.813L3.975 8.813h6.113z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="skill-title">AI &amp; Tools</div>
+                <span class="skill-title-sub">人工智能与工具</span>
+              </div>
+            </div>
+            <div class="skill-chips">
+              <span class="chip">AI toolchains</span>
+              <span class="chip">Prompt workflows</span>
+            </div>
+          </div>
+
+          <!-- Skill 5: Languages -->
+          <div class="skill-card reveal delay-5">
+            <div class="skill-header">
+              <div class="skill-icon sand" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="skill-title">Languages</div>
+                <span class="skill-title-sub">语言</span>
+              </div>
+            </div>
+            <div class="skill-chips">
+              <span class="chip">English (IELTS prep)</span>
+              <span class="chip">Chinese (Native)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Focus card -->
+        <div class="focus-card reveal">
+          <div class="focus-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="6"></circle>
+              <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+          </div>
+          <div class="focus-content">
+            <h3>What I'm focused on now / 目前专注</h3>
+            <ul>
+              <li>Automotive testing skills · 车载测试技能</li>
+              <li>IELTS preparation · 雅思备考</li>
+              <li>Finishing Fire Color Life · 完成《火彩人生》开发</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contact ===== -->
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <h2 class="section-title reveal" id="contact-title" style="text-align: center; padding-left: 0;">
+          Contact
+          <span class="section-title-en">联系</span>
+        </h2>
+        <style>
+          #contact .section-title::before { display: none; }
+          #contact .section-title { padding-left: 0; }
+        </style>
+
+        <div class="contact-intro reveal delay-1">
+          <p>
+            <span class="lang-label en">EN</span>
+            Thanks for stopping by! I'm always happy to chat about projects, ideas, or opportunities.
+          </p>
+          <p>
+            <span class="lang-label zh">中</span>
+            感谢你的到访！我很乐意聊聊项目、想法或合作机会。
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <a href="mailto:2181064067@qq.com" class="contact-card reveal delay-2" aria-label="Send email to 2181064067@qq.com">
+            <div class="contact-icon teal" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div class="contact-label">Email · 邮箱</div>
+            <div class="contact-value">2181064067@qq.com</div>
+          </a>
+
+          <a href="https://github.com/hzs-max" class="contact-card reveal delay-3" target="_blank" rel="noopener noreferrer" aria-label="Visit GitHub profile">
+            <div class="contact-icon dark" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+            </div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-value">hzs-max</div>
+          </a>
+        </div>
+
+        <p class="contact-footer-text reveal delay-4">
+          Open to internship conversations and interesting collaborations ·
+          <br class="hidden md:hidden" />
+          欢迎实习机会与有趣的合作交流。
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container">
+      © 2026 Zhongshuai G · Made with curiosity · 用好奇心制作
+    </div>
+  </footer>
+
+  <script>
+    // ===== Navigation scroll effect =====
+    const nav = document.getElementById('nav');
+    let lastScroll = 0;
+
+    function onScroll() {
+      const scrollY = window.scrollY;
+      if (scrollY > 20) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+      lastScroll = scrollY;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // ===== Mobile menu toggle =====
+    const navToggle = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    navToggle.addEventListener('click', function () {
+      const isOpen = mobileMenu.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function (e) {
+      if (!nav.contains(e.target) && mobileMenu.classList.contains('open')) {
+        closeMobileMenu(e);
+      }
+    });
+
+    // ===== Scroll reveal animation =====
+    const revealElements = document.querySelectorAll('.reveal');
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      revealElements.forEach(function (el) {
+        observer.observe(el);
+      });
+    } else {
+      // Fallback: show everything
+      revealElements.forEach(function (el) {
+        el.classList.add('visible');
+      });
+    }
+
+    // ===== Close mobile menu on Escape =====
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+        closeMobileMenu();
+        navToggle.focus();
+      }
+    });
+  </script>
+</body>
+</html>
